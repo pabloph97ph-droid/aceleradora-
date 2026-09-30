@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Operação Comercial // Aceleração Local</title>
+  <meta name="description" content="Playbook executivo interno de digitalização e aceleração de negócios locais.">
+  <style>
+    :root {
+      --bg-primary: #08090a;
+      --bg-surface: #111316;
+      --bg-elevated: #181b1f;
+      --border-subtle: #22272e;
+      --border-highlight: #2f3640;
+      --text-primary: #f3f4f6;
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
+      --accent-lime: #b0f443;
+      --accent-lime-dim: rgba(176, 244, 67, 0.12);
+      --accent-lime-border: rgba(176, 244, 67, 0.3);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      letter-spacing: -0.01em;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Scroll progress bar */
+    #scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background-color: var(--accent-lime);
+      z-index: 100;
+      transition: width 0.08s ease-out;
+    }
+
+    /* Typography & Utilities */
+    .font-mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+    .text-lime {
+      color: var(--accent-lime);
+    }
+    .text-secondary {
+      color: var(--text-secondary);
+    }
+    .text-muted {
+      color: var(--text-muted);
+    }
+    .border-subtle {
+      border: 1px solid var(--border-subtle);
+    }
+    .bg-surface {
+      background-color: var(--bg-surface);
+    }
+    .bg-elevated {
+      background-color: var(--bg-elevated);
+    }
+    .lime-glow {
+      box-shadow: 0 0 24px -4px rgba(176, 244, 67, 0.12);
+    }
+
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Fixed Navigation */
+    header.navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      background: rgba(8, 9, 10, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-subtle);
+      z-index: 90;
+      display: flex;
+      align-items: center;
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .brand-mark {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text-primary);
+      font-weight: 700;
+      font-size: 15px;
+    }
+    .brand-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--accent-lime);
+    }
+    .nav-links {
+      display: none;
+      align-items: center;
+      gap: 22px;
+    }
+    @media (min-width: 980px) {
+      .nav-links { display: flex; }
+    }
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover {
+      color: var(--text-primary);
+    }
+
+    /* Buttons */
+    .btn-lime {
+      background-color: var(--accent-lime);
+      color: #08090a;
+      font-weight: 600;
+      font-size: 12px;
+      padding: 8px 16px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.15s, opacity 0.15s;
+      white-space: nowrap;
+    }
+    .btn-lime:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
+    }
+    .btn-outline {
+      background-color: var(--bg-elevated);
+      color: var(--text-primary);
+      border: 1px solid var(--border-subtle);
+      font-size: 12px;
+      padding: 8px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: border-color 0.15s;
+    }
+    .btn-outline:hover {
+      border-color: var(--accent-lime);
+    }
+
+    /* Section structure */
+    section {
+      padding: 80px 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .section-kicker {
+      font-family: ui-monospace, monospace;
+      font-size: 11px;
+      color: var(--accent-lime);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
+    @media (min-width: 768px) {
+      .section-title { font-size: 38px; }
+    }
+    .section-desc {
+      font-size: 15px;
+      color: var(--text-secondary);
+      max-width: 760px;
+      line-height: 1.6;
+      margin-bottom: 40px;
+    }
+
+    /* Hero Section */
+    .hero-kicker-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 11px;
+      font-family: ui-monospace, monospace;
+      color: var(--accent-lime);
+      margin-bottom: 24px;
+    }
+    .hero-h1 {
+      font-size: 44px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    @media (min-width: 768px) {
+      .hero-h1 { font-size: 60px; }
+    }
+    .hero-sub {
+      font-size: 18px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      max-width: 780px;
+      margin-bottom: 40px;
+    }
+
+    /* Grids */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    @media (min-width: 768px) {
+      .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    @media (min-width: 900px) {
+      .grid-2 { grid-template-columns: 1fr 1fr; }
+    }
+
+    .card {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 24px;
+      transition: border-color 0.2s;
+    }
+    .card:hover {
+      border-color: rgba(176, 244, 67, 0.4);
+    }
+    .card-highlight {
+      border: 2px solid var(--accent-lime);
+      box-shadow: 0 0 25px -4px rgba(176, 244, 67, 0.15);
+      position: relative;
+    }
+
+    /* Metrics Bar */
+    .metrics-bar {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 24px;
+      margin-top: 40px;
+    }
+    @media (min-width: 768px) {
+      .metrics-bar { grid-template-columns: repeat(4, 1fr); }
+    }
+    .metric-val {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--accent-lime);
+      font-family: ui-monospace, monospace;
+    }
+    .metric-lbl {
+      font-size: 11px;
+      font-family: ui-monospace, monospace;
+      color: var(--text-secondary);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+    }
+
+    /* Comparison Table */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13px;
+      min-width: 700px;
+    }
+    th, td {
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    th {
+      background-color: var(--bg-elevated);
+      font-family: ui-monospace, monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+    .th-rec, .td-rec {
+      background-color: rgba(176, 244, 67, 0.04);
+      border-left: 1px solid rgba(176, 244, 67, 0.25);
+      border-right: 1px solid rgba(176, 244, 67, 0.25);
+    }
+    .group-row {
+      background-color: #08090a;
+      color: var(--accent-lime);
+      font-family: ui-monospace, monospace;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    /* Modal */
+    #modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(8, 9, 10, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 200;
+      padding: 20px;
+      align-items: center;
+      justify-content: center;
+    }
+    #modal-overlay.active {
+      display: flex;
+    }
+    .modal-box {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      width: 100%;
+      max-width: 760px;
+      max-height: 88vh;
+      overflow-y: auto;
+      padding: 28px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+      position: relative;
+    }
+    .step-item {
+      padding: 16px;
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .step-check {
+      margin-top: 3px;
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent-lime);
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Scroll Progress Bar -->
+  <div id="scroll-progress"></div>
+
+  <!-- Discrete Fixed Top Navbar -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="#hero" class="brand-mark">
+        <span class="brand-dot"></span>
+        <span>OPERAÇÃO // ACELERAÇÃO LOCAL</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#mercado">01. Oportunidade</a>
+        <a href="#pilares">02. 5 Pilares</a>
+        <a href="#pacotes">03. Pacotes</a>
+        <a href="#custos">04. Custos Internos</a>
+        <a href="#remuneracao">05. Comissão (30%)</a>
+        <a href="#simulador">06. Simulador</a>
+        <a href="#playbook">07. Diagnóstico</a>
+      </nav>
+
+      <button class="btn-lime" onclick="openModal()">
+        <span>Começar Prospecção</span>
+        <span>→</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- 1. Hero / Abertura -->
+  <section id="hero" style="padding-top: 130px;">
+    <div class="container">
+      <div class="hero-kicker-bar">
+        <span>PLAYBOOK COMERCIAL B2B</span>
+        <span>·</span>
+        <span>USO EXCLUSIVO FORÇA DE VENDAS</span>
+        <span>·</span>
+        <span>OPERAÇÃO ATIVA 2026</span>
+      </div>
+
+      <h1 class="hero-h1">O mercado está mudando.</h1>
+      
+      <p class="hero-sub">
+        Negócios locais não precisam de mais postagens estéticas em redes sociais ou promessas vagas. Eles precisam de <strong style="color:#f3f4f6;">infraestrutura de receita real</strong>, resposta imediata automatizada e previsibilidade de clientes no balcão.
+      </p>
+
+      <div class="grid-3" style="margin-bottom: 30px;">
+        <div class="card">
+          <div style="color:var(--accent-lime); font-size:13px; font-weight:600; margin-bottom:6px;">
+            CRM Conversacional & WhatsApp 24/7
+          </div>
+          <p style="font-size:12px; color:var(--text-secondary); line-height:1.5;">
+            Atendimento em menos de 60 segundos com triagem automática, eliminando a perda de leads fora do horário comercial.
+          </p>
+        </div>
+
+        <div class="card">
+          <div style="color:var(--accent-lime); font-size:13px; font-weight:600; margin-bottom:6px;">
+            Mídia Paga Hiperlocal (Raio 3–10km)
+          </div>
+          <p style="font-size:12px; color:var(--text-secondary); line-height:1.5;">
+            Anúncios voltados estritamente para pessoas com alta intenção de compra no bairro, com geofencing cirúrgico.
+          </p>
+        </div>
+
+        <div class="card">
+          <div style="color:var(--accent-lime); font-size:13px; font-weight:600; margin-bottom:6px;">
+            Google Meu Negócio Otimizado
+          </div>
+          <p style="font-size:12px; color:var(--text-secondary); line-height:1.5;">
+            Dominação do Top 3 nas pesquisas locais do Google Maps, captando mais de 80% das buscas ativas com intenção de compra.
+          </p>
+        </div>
+      </div>
+
+      <div class="metrics-bar">
+        <div>
+          <div class="metric-lbl">SUA COMISSÃO DIRETA</div>
+          <div class="metric-val">30%</div>
+          <div style="font-size:11px; color:var(--text-secondary); margin-top:2px;">Até R$ 5.070,00 por contrato</div>
+        </div>
+        <div>
+          <div class="metric-lbl">MÍDIA INICIAL ASSEGURADA</div>
+          <div class="metric-val" style="color:#f3f4f6;">R$ 1.500</div>
+          <div style="font-size:11px; color:var(--text-secondary); margin-top:2px;">Assumida pela nossa operação</div>
+        </div>
+        <div>
+          <div class="metric-lbl">TEMPO DE RESPOSTA</div>
+          <div class="metric-val">&lt; 60s</div>
+          <div style="font-size:11px; color:var(--text-secondary); margin-top:2px;">Automação imediata de entrada</div>
+        </div>
+        <div>
+          <div class="metric-lbl">MODELO DE OPERAÇÃO</div>
+          <div class="metric-val" style="color:#f3f4f6; font-size:24px;">Turnkey</div>
+          <div style="font-size:11px; color:var(--text-secondary); margin-top:2px;">Engenharia entregue pronta</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Por que agora? Oportunidade e Gap Tecnológico -->
+  <section id="mercado">
+    <div class="container">
+      <div class="section-kicker">01. OPORTUNIDADE DE MERCADO</div>
+      <h2 class="section-title">Por que agora? O gap entre "estar online" e vender.</h2>
+      <p class="section-desc">
+        A maioria das empresas locais está presa no que chamamos de "presença superficial" — gastam tempo decorando o feed do Instagram, mas continuam sem saber quantos clientes novos entraram este mês pela internet.
+      </p>
+
+      <div class="grid-2">
+        <div class="card">
+          <div style="font-family:ui-monospace; font-size:11px; color:var(--text-secondary); margin-bottom:4px;">O MODELO ULTRAPASSADO</div>
+          <h3 style="font-size:18px; font-weight:700; margin-bottom:16px;">Presença Superficial</h3>
+          <ul style="font-size:13px; color:var(--text-secondary); line-height:1.7; padding-left:18px;">
+            <li>Feed decorado que gera curtidas de conhecidos, mas caixa vazio.</li>
+            <li>WhatsApp manual: mensagens recebidas à noite ficam horas sem resposta.</li>
+            <li>Botão impulsionar acionado sem pixel, sem teste e sem cálculo de CAC.</li>
+            <li>Desconhecimento total de quantos clientes novos vieram do digital.</li>
+          </ul>
+        </div>
+
+        <div class="card card-highlight">
+          <div style="font-family:ui-monospace; font-size:11px; color:var(--accent-lime); margin-bottom:4px;">A NOSSA ENTREGA</div>
+          <h3 style="font-size:18px; font-weight:700; margin-bottom:16px;">Infraestrutura Real de Receita</h3>
+          <ul style="font-size:13px; color:var(--text-primary); line-height:1.7; padding-left:18px;">
+            <li>Top 3 garantido no Google Maps para quem busca comprar agora.</li>
+            <li>Triagem automatizada via WhatsApp em menos de 60 segundos 24/7.</li>
+            <li>R$ 1.500 de mídia inicial assumida pela nossa operação (zero risco de mídia inicial).</li>
+            <li>Máquina de retenção que reativa a base de clientes a cada 30/60 dias.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Os 5 Pilares do Ecossistema -->
+  <section id="pilares">
+    <div class="container">
+      <div class="section-kicker">02. OS 5 PILARES DA MÁQUINA</div>
+      <h2 class="section-title">Engrenagem Completa de Digitalização B2B</h2>
+      <p class="section-desc">
+        Nenhum serviço é vendido solto. Cada pilar alimenta o próximo em um sistema coeso de tração comercial:
+      </p>
+
+      <div class="grid-3">
+        <div class="card">
+          <div style="font-family:ui-monospace; font-size:11px; color:var(--accent-lime); margin-bottom:4px;">PILAR 01</div>
+          <h3 style="font-size:16px; font-weight:700; margin-bottom:8px;">Presença & Autoridade</h3>
+          <p style="font-size:12px; color:var(--text-secondary); line-height:1.6;">
+            Otimização algorítmica do Google Meu Negócio, SEO local, fotos profissionais e landing page ultrarrápida (&lt;1.2s).
+          </p>
+        </div>
+
+        <div class="card">
+          <div style="font-family:ui-monospace; font-size:11px; color:var(--accent-lime); margin-bottom:4px;">PILAR 02</div>
+          <h3 style="font-size:16px; font-weight:700; margin-bottom:8px;">Aquisição Hiperlocal</h3>
+          <p style="font-size:12px; color:var(--text-secondary); line-height:1.6;">
+            Tráfego pago no raio de 3 a 10km, Google Search de alta intenção e R$ 1.500 de mídia injetada pela nossa operação.
+          </p>
+        </div>
+
+        <div class="card">
+          <div style="font-family:ui-monospace; font-size:11px; color:var(--accent-lime); margin-bottom:4px;">PILAR 03</div>
+          <h3 style="font-size:16px; font-weight:700; margin-bottom:8px;">Conversão Imediata</h3>
+          <p style="font-size:12px; color:var(--text-secondary); line-height:1.6;">
+            Triagem automatizada via WhatsApp em &lt;60s, roteamento para equipe de vendas e scripts de agendamento ágil.
+          </p>
+        </div>
+
+        <div class="card">
+          <div style="font-family:ui-monospace; font-size:11px; color:var(--accent-lime); margin-bottom:4px;">PILAR 04</div>
+          <h3 style="font-size:16px; font-weight:700; margin-bottom:8px;">Retenção & Reativação</h3>
+          <p style="font-size:12px; color:var(--text-secondary); line-height:1.6;">
+            CRM estruturado e automação de disparos para clientes inativos a cada 30 e 60 dias, multiplicando o LTV a custo zero.
+          </p>
+        </div>
+
+        <div class="card">
+          <div style="font-family:ui-monospace; font-size:11px; color:var(--accent-lime); margin-bottom:4px;">PILAR 05</div>
+          <h3 style="font-size:16px; font-weight:700; margin-bottom:8px;">Inteligência & Atribuição</h3>
+          <p style="font-size:12px; color:var(--text-secondary); line-height:1.6;">
+            Relatórios executivos sem métricas de vaidade: acompanhamento de CAC, Custo por Lead e receita real em caixa.
+          </p>
+        </div>
+
+        <div class="card" style="background-color: var(--bg-elevated); border-color: rgba(176,244,67,0.3);">
+          <div style="font-family:ui-monospace; font-size:11px; color:var(--accent-lime); margin-bottom:4px;">RESUMO EXECUTIVO</div>
+          <h3 style="font-size:16px; font-weight:700; margin-bottom:8px;">Venda da Solução Completa</h3>
+          <p style="font-size:12px; color:var(--text-secondary); line-height:1.6;">
+            O cliente não contrata um 'freelancer' — contrata um ecossistema com suporte técnico, SLA e investimento compartilhado.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Como funciona a venda & Os Três Pacotes -->
+  <section id="pacotes">
+    <div class="container">
+      <div class="section-kicker">03. PACOTES COMERCIAIS</div>
+      <h2 class="section-title">Três Níveis de Solução & Comissões de 30%</h2>
+      <p class="section-desc">
+        Apresente sempre o Pacote 03 (Dominação) primeiro para ancorar valor e conduza para o Pacote 02 (Crescimento) com o argumento imbatível da verba assumida.
+      </p>
+
+      <div class="grid-3" style="align-items:stretch;">
+        
+        <!-- Pacote 01 -->
+        <div class="card" style="display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <div style="font-family:ui-monospace; font-size:11px; color:var(--text-secondary);">PACOTE 01</div>
+            <h3 style="font-size:22px; font-weight:700; margin:6px 0;">Presença</h3>
+            <p style="font-size:12px; color:var(--text-secondary); margin-bottom:20px;">
+              Infraestrutura essencial de autoridade e posicionamento local no Google.
+            </p>
+
+            <div style="padding:16px 0; border-top:1px solid var(--border-subtle); border-bottom:1px solid var(--border-subtle); margin-bottom:20px;">
+              <div style="font-size:11px; font-family:ui-monospace; color:var(--text-secondary);">INVESTIMENTO DO CLIENTE</div>
+              <div style="font-size:28px; font-weight:800; font-family:ui-monospace; color:#f3f4f6;">R$ 2.900</div>
+              <div style="font-size:11px; font-family:ui-monospace; color:var(--accent-lime); margin-top:4px;">
+                SUA COMISSÃO (30%): <strong>R$ 870,00</strong>
+              </div>
+            </div>
+
+            <ul style="font-size:12px; color:var(--text-secondary); line-height:1.8; list-style:none;">
+              <li>✓ Otimização SEO Google Meu Negócio</li>
+              <li>✓ Landing Page de alta velocidade</li>
+              <li>✓ Configuração de tags e botões WhatsApp</li>
+              <li>✓ Entrega única em até 15 dias</li>
+            </ul>
+          </div>
+
+          <button class="btn-outline" style="width:100%; margin-top:24px;" onclick="openModal()">
+            Prospectar Presença
+          </button>
+        </div>
+
+        <!-- Pacote 02 -->
+        <div class="card card-highlight" style="display:flex; flex-direction:column; justify-content:space-between;">
+          <div style="position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:var(--accent-lime); color:#08090a; font-size:10px; font-weight:700; font-family:ui-monospace; padding:3px 10px; border-radius:3px; text-transform:uppercase;">
+            RECOMENDADO · DESTAQUE
+          </div>
+
+          <div>
+            <div style="font-family:ui-monospace; font-size:11px; color:var(--accent-lime);">PACOTE 02</div>
+            <h3 style="font-size:22px; font-weight:700; margin:6px 0;">Crescimento</h3>
+            <p style="font-size:12px; color:var(--text-secondary); margin-bottom:20px;">
+              3 meses de tráfego hiperlocal com R$ 1.500 em mídia assumida pela nossa operação.
+            </p>
+
+            <div style="padding:16px 0; border-top:1px solid var(--border-subtle); border-bottom:1px solid var(--border-subtle); margin-bottom:20px;">
+              <div style="font-size:11px; font-family:ui-monospace; color:var(--text-secondary);">INVESTIMENTO DO CLIENTE</div>
+              <div style="font-size:28px; font-weight:800; font-family:ui-monospace; color:#f3f4f6;">R$ 8.900</div>
+              <div style="font-size:11px; font-family:ui-monospace; color:var(--accent-lime); margin-top:4px;">
+                SUA COMISSÃO (30%): <strong>R$ 2.670,00</strong>
+              </div>
+            </div>
+
+            <ul style="font-size:12px; color:var(--text-primary); line-height:1.8; list-style:none;">
+              <li>✓ Tudo do Pacote Presença incluso</li>
+              <li>✓ <strong>3 meses de gestão ativa de tráfego pago</strong></li>
+              <li>✓ <strong>R$ 1.500 de mídia inicial garantida pela empresa</strong></li>
+              <li>✓ Triagem e automação de WhatsApp 24/7</li>
+              <li>✓ Otimização contínua de CAC e reuniões mensais</li>
+            </ul>
+          </div>
+
+          <button class="btn-lime" style="width:100%; justify-content:center; margin-top:24px;" onclick="openModal()">
+            Prospectar Crescimento
+          </button>
+        </div>
+
+        <!-- Pacote 03 -->
+        <div class="card" style="display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <div style="font-family:ui-monospace; font-size:11px; color:var(--text-secondary);">PACOTE 03</div>
+            <h3 style="font-size:22px; font-weight:700; margin:6px 0;">Dominação</h3>
+            <p style="font-size:12px; color:var(--text-secondary); margin-bottom:20px;">
+              Ecossistema integral de tecnologia, retenção, produção audiovisual e 6 meses de escala.
+            </p>
+
+            <div style="padding:16px 0; border-top:1px solid var(--border-subtle); border-bottom:1px solid var(--border-subtle); margin-bottom:20px;">
+              <div style="font-size:11px; font-family:ui-monospace; color:var(--text-secondary);">INVESTIMENTO DO CLIENTE</div>
+              <div style="font-size:28px; font-weight:800; font-family:ui-monospace; color:#f3f4f6;">R$ 16.900</div>
+              <div style="font-size:11px; font-family:ui-monospace; color:var(--accent-lime); margin-top:4px;">
+                SUA COMISSÃO (30%): <strong>R$ 5.070,00</strong>
+              </div>
+            </div>
+
+            <ul style="font-size:12px; color:var(--text-secondary); line-height:1.8; list-style:none;">
+              <li>✓ Infraestrutura total e multicanal por 6 meses</li>
+              <li>✓ Captação audiovisual presencial completa no local</li>
+              <li>✓ Implementação de CRM de Vendas dedicado</li>
+              <li>✓ Sistema ativo de reativação de clientes inativos</li>
+              <li>✓ Treinamento comercial para equipe de atendimento</li>
+            </ul>
+          </div>
+
+          <button class="btn-outline" style="width:100%; margin-top:24px;" onclick="openModal()">
+            Prospectar Dominação
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Tabela Comparativa Visual -->
+  <section>
+    <div class="container">
+      <div class="section-kicker">MATRIZ COMPARATIVA</div>
+      <h2 class="section-title">Comparativo Visual entre os Pacotes</h2>
+      
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:40%;">Entregável / Recurso</th>
+              <th style="text-align:center;">Presença (R$ 2.900)</th>
+              <th class="th-rec" style="text-align:center; color:var(--accent-lime);">Crescimento (R$ 8.900) ★</th>
+              <th style="text-align:center;">Dominação (R$ 16.900)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="group-row"><td colspan="4">Presença & Infraestrutura</td></tr>
+            <tr>
+              <td>Google Meu Negócio & SEO Local</td>
+              <td style="text-align:center;">Sim</td>
+              <td class="td-rec" style="text-align:center;">Sim (Avançado)</td>
+              <td style="text-align:center;">Sim (Completo)</td>
+            </tr>
+            <tr>
+              <td>Landing Page Ultrarrápida</td>
+              <td style="text-align:center;">1 Página</td>
+              <td class="td-rec" style="text-align:center;">1 Página Otimizada</td>
+              <td style="text-align:center;">Até 3 Páginas</td>
+            </tr>
+
+            <tr class="group-row"><td colspan="4">Aquisição & Mídia Hiperlocal</td></tr>
+            <tr>
+              <td>Gestão Ativa de Tráfego Pago</td>
+              <td style="text-align:center;">Não</td>
+              <td class="td-rec" style="text-align:center;">3 Meses Inclusos</td>
+              <td style="text-align:center;">6 Meses Inclusos</td>
+            </tr>
+            <tr>
+              <td>Verba de Mídia Assumida pela Operação</td>
+              <td style="text-align:center;">Zero</td>
+              <td class="td-rec" style="text-align:center; font-weight:700; color:var(--accent-lime);">R$ 1.500 Inclusa</td>
+              <td style="text-align:center;">R$ 1.500 Inclusa</td>
+            </tr>
+            <tr>
+              <td>Produção Audiovisual Presencial</td>
+              <td style="text-align:center;">Não</td>
+              <td class="td-rec" style="text-align:center;">Criativos Digitais</td>
+              <td style="text-align:center;">Gravação in loco completa</td>
+            </tr>
+
+            <tr class="group-row"><td colspan="4">Conversão, Retenção & Suporte</td></tr>
+            <tr>
+              <td>Automação de WhatsApp 24/7</td>
+              <td style="text-align:center;">Link direto</td>
+              <td class="td-rec" style="text-align:center;">Robô de Triagem</td>
+              <td style="text-align:center;">Fluxo Inteligente CRM</td>
+            </tr>
+            <tr>
+              <td>Reativação de Base de Clientes</td>
+              <td style="text-align:center;">Não</td>
+              <td class="td-rec" style="text-align:center;">Roteiro sugerido</td>
+              <td style="text-align:center;">Automação de Recompra</td>
+            </tr>
+            <tr>
+              <td>Sua Comissão de Vendas (30%)</td>
+              <td style="text-align:center; font-family:ui-monospace;">R$ 870,00</td>
+              <td class="td-rec" style="text-align:center; font-family:ui-monospace; font-weight:700; color:var(--accent-lime);">R$ 2.670,00</td>
+              <td style="text-align:center; font-family:ui-monospace;">R$ 5.070,00</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Custos Operacionais (Interno Restrito) -->
+  <section id="custos">
+    <div class="container">
+      <div style="background-color:#181b1f; border-left:4px solid var(--accent-lime); padding:12px 18px; margin-bottom:24px; font-family:ui-monospace; font-size:11px; color:var(--accent-lime);">
+        DOCUMENTO RESTRITO // ACESSO EXCLUSIVO DA FORÇA COMERCIAL INTERNA
+      </div>
+
+      <div class="section-kicker">04. SAÚDE FINANCEIRA & MARGENS</div>
+      <h2 class="section-title">Custos Operacionais & Provisão (Pacote Dominação)</h2>
+      <p class="section-desc">
+        Abaixo está a distribuição de alocação de custos da nossa operação no contrato de R$ 16.900,00. Entender essa estrutura confere segurança total na sustentação da entrega técnica:
+      </p>
+
+      <div class="grid-3">
+        <div class="card">
+          <div style="font-family:ui-monospace; font-size:11px; color:var(--text-secondary);">PROVISÃO OPERACIONAL TOTAL</div>
+          <div style="font-size:32px; font-weight:800; font-family:ui-monospace; color:#f3f4f6; margin:8px 0;">R$ 6.700,00</div>
+          <p style="font-size:12px; color:var(--text-secondary); line-height:1.5;">
+            Representa 39,6% do contrato bruto. Custeia software, verba de testes, diária presencial de vídeo e 6 meses de acompanhamento.
+          </p>
+        </div>
+
+        <div class="card card-highlight">
+          <div style="font-family:ui-monospace; font-size:11px; color:var(--accent-lime);">SUA COMISSÃO DIRETA (30%)</div>
+          <div style="font-size:32px; font-weight:800; font-family:ui-monospace; color:var(--accent-lime); margin:8px 0;">R$ 5.070,00</div>
+          <p style="font-size:12px; color:var(--text-secondary); line-height:1.5;">
+            Creditada integralmente ao consultor comercial responsável pelo fechamento, liquidada de acordo com o fluxo do contrato.
+          </p>
+        </div>
+
+        <div class="card">
+          <div style="font-family:ui-monospace; font-size:11px; color:var(--text-secondary);">MARGEM LÍQUIDA DA EMPRESA</div>
+          <div style="font-size:32px; font-weight:800; font-family:ui-monospace; color:#f3f4f6; margin:8px 0;">R$ 5.130,00</div>
+          <p style="font-size:12px; color:var(--text-secondary); line-height:1.5;">
+            Resultado operacional da empresa (30,4%), garantindo liquidez, sustentabilidade e inovação contínua.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Remuneração: 30% + Renovação + Bônus de Produção -->
+  <section id="remuneracao">
+    <div class="container">
+      <div class="section-kicker">05. REMUNERAÇÃO EXECUTIVA</div>
+      <h2 class="section-title">Quanto Você Ganha?</h2>
+      <p class="section-desc">
+        Comissão imediata de 30% em todas as vendas + receita recorrente por renovação escalonada + bônus de produção em tarefas de campo:
+      </p>
+
+      <div class="grid-3">
+        <div class="card card-highlight">
+          <h3 style="font-size:18px; font-weight:700; margin-bottom:8px;">30% Venda Nova</h3>
+          <p style="font-size:12px; color:var(--text-secondary); margin-bottom:16px;">
+            Ganho direto em cada novo contrato fechado.
+          </p>
+          <div style="font-family:ui-monospace; font-size:12px; line-height:2;">
+            <div>• Dominação: <strong style="color:var(--accent-lime);">R$ 5.070,00</strong></div>
+            <div>• Crescimento: <strong style="color:var(--accent-lime);">R$ 2.670,00</strong></div>
+            <div>• Presença: <strong style="color:var(--accent-lime);">R$ 870,00</strong></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="font-size:18px; font-weight:700; margin-bottom:8px;">Renovação Escalonada</h3>
+          <p style="font-size:12px; color:var(--text-secondary); margin-bottom:16px;">
+            Ganho perpétuo enquanto a conta renovar a gestão.
+          </p>
+          <div style="font-family:ui-monospace; font-size:12px; line-height:2;">
+            <div>• 1º Ciclo (Meses 4–6): <strong>30%</strong></div>
+            <div>• 2º Ciclo (Meses 7–9): <strong>15%</strong></div>
+            <div>• 3º Ciclo em diante: <strong style="color:var(--accent-lime);">10% perpétuo</strong></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="font-size:18px; font-weight:700; margin-bottom:8px;">Bônus de Produção</h3>
+          <p style="font-size:12px; color:var(--text-secondary); margin-bottom:16px;">
+            Executou a gravação ou edição? O valor fica com você:
+          </p>
+          <div style="font-family:ui-monospace; font-size:12px; line-height:2;">
+            <div>• Captação presencial: <strong style="color:var(--accent-lime);">+R$ 450,00</strong></div>
+            <div>• Edição de Reels: <strong style="color:var(--accent-lime);">+R$ 300,00</strong></div>
+            <div>• Parametrização CRM: <strong style="color:var(--accent-lime);">+R$ 400,00</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Simulador Matemático & Checklist de Alvos -->
+  <section id="simulador">
+    <div class="container">
+      <div class="section-kicker">06. SIMULADOR & NICHO-ALVO</div>
+      <h2 class="section-title">Simule seus Ganhos Mensais</h2>
+      
+      <div class="card" style="margin-bottom:40px;">
+        <div class="grid-2">
+          <div>
+            <div style="margin-bottom:16px;">
+              <label style="font-size:12px; font-family:ui-monospace; display:block; margin-bottom:4px;">
+                Vendas de Pacote Crescimento (R$ 2.670 comissão): <span id="p2-count-val" style="color:var(--accent-lime); font-weight:700;">2</span>
+              </label>
+              <input type="range" id="p2-slider" min="0" max="8" value="2" style="width:100%; accent-color:var(--accent-lime);" oninput="updateSim()">
+            </div>
+
+            <div style="margin-bottom:16px;">
+              <label style="font-size:12px; font-family:ui-monospace; display:block; margin-bottom:4px;">
+                Vendas de Pacote Dominação (R$ 5.070 comissão): <span id="p3-count-val" style="color:var(--accent-lime); font-weight:700;">1</span>
+              </label>
+              <input type="range" id="p3-slider" min="0" max="6" value="1" style="width:100%; accent-color:var(--accent-lime);" oninput="updateSim()">
+            </div>
+
+            <div style="margin-bottom:16px;">
+              <label style="font-size:12px; font-family:ui-monospace; display:block; margin-bottom:4px;">
+                Tarefas de Execução/Gravação (R$ 400): <span id="bonus-count-val" style="color:var(--accent-lime); font-weight:700;">2</span>
+              </label>
+              <input type="range" id="bonus-slider" min="0" max="6" value="2" style="width:100%; accent-color:var(--accent-lime);" oninput="updateSim()">
+            </div>
+          </div>
+
+          <div style="background-color:#08090a; padding:24px; border-radius:6px; border:1px solid var(--border-subtle); display:flex; flex-direction:column; justify-content:center;">
+            <div style="font-family:ui-monospace; font-size:11px; color:var(--text-secondary); text-transform:uppercase;">
+              TOTAL ESTIMADO NO MÊS
+            </div>
+            <div id="sim-total" style="font-size:38px; font-weight:800; font-family:ui-monospace; color:var(--accent-lime); margin:6px 0;">
+              R$ 11.210,00
+            </div>
+            <div style="font-size:12px; color:var(--text-secondary);">
+              Com apenas 3 vendas fechadas no mês + 2 gravações presenciais executadas.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Playbook de Vendas: 6 Perguntas de Ouro e Objeções -->
+  <section id="playbook">
+    <div class="container">
+      <div class="section-kicker">07. PLAYBOOK DE DIAGNÓSTICO</div>
+      <h2 class="section-title">As 6 Perguntas de Ouro do Vendedor</h2>
+      <p class="section-desc">
+        Em uma reunião comercial, quem faz as perguntas guia o fechamento. Conduza o empresário por estas perguntas essenciais:
+      </p>
+
+      <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:40px;">
+        <div class="card" style="padding:16px 20px;">
+          <div style="font-family:ui-monospace; font-size:11px; color:var(--accent-lime); margin-bottom:4px;">PERGUNTA 01</div>
+          <div style="font-weight:600; font-size:14px;">"Hoje, se 20 pessoas no seu bairro buscarem no Google exatamente pelo que você vende, quantas encontram você e quantas vão para o concorrente?"</div>
+        </div>
+        <div class="card" style="padding:16px 20px;">
+          <div style="font-family:ui-monospace; font-size:11px; color:var(--accent-lime); margin-bottom:4px;">PERGUNTA 02</div>
+          <div style="font-weight:600; font-size:14px;">"Se um cliente mandar mensagem no WhatsApp da sua empresa às 20h30 de sexta-feira ou no domingo à tarde, quem responde e em quantos minutos?"</div>
+        </div>
+        <div class="card" style="padding:16px 20px;">
+          <div style="font-family:ui-monospace; font-size:11px; color:var(--accent-lime); margin-bottom:4px;">PERGUNTA 03</div>
+          <div style="font-weight:600; font-size:14px;">"Dos clientes que entraram aqui no último mês, quantos vieram da internet e qual faturamento exato eles geraram no seu caixa?"</div>
+        </div>
+        <div class="card" style="padding:16px 20px;">
+          <div style="font-family:ui-monospace; font-size:11px; color:var(--accent-lime); margin-bottom:4px;">PERGUNTA 04</div>
+          <div style="font-weight:600; font-size:14px;">"Você tem uma lista com o WhatsApp de quem já comprou de você no último ano para mandar uma oferta personalizada hoje à tarde?"</div>
+        </div>
+        <div class="card" style="padding:16px 20px;">
+          <div style="font-family:ui-monospace; font-size:11px; color:var(--accent-lime); margin-bottom:4px;">PERGUNTA 05</div>
+          <div style="font-weight:600; font-size:14px;">"Quanto custa hoje atrair um novo cliente para o seu negócio e quanto ele gasta com você ao longo de 12 meses?"</div>
+        </div>
+        <div class="card" style="padding:16px 20px;">
+          <div style="font-family:ui-monospace; font-size:11px; color:var(--accent-lime); margin-bottom:4px;">PERGUNTA 06</div>
+          <div style="font-weight:600; font-size:14px;">"Se nós assumirmos R$ 1.500 de anúncios na sua região para você testar sem risco no primeiro mês, faz sentido começarmos agora?"</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Manifesto & Rodapé -->
+  <footer style="padding:80px 0 40px; background-color:#08090a; border-top:1px solid var(--border-subtle);">
+    <div class="container">
+      <div class="card card-highlight" style="padding:40px; margin-bottom:40px;">
+        <div style="font-family:ui-monospace; font-size:11px; color:var(--accent-lime); text-transform:uppercase; margin-bottom:12px;">
+          MANIFESTO COMERCIAL
+        </div>
+        <h3 style="font-size:32px; font-weight:800; line-height:1.2; margin-bottom:16px;">
+          "Não vendemos tecnologia. Vendemos capacidade."
+        </h3>
+        <p style="font-size:15px; color:var(--text-secondary); max-width:700px; line-height:1.6; margin-bottom:28px;">
+          O empresário local não acorda querendo um pixel de conversão ou um funil de CRM. Ele quer previsibilidade de faturamento, controle da própria demanda e o fim da dependência do acaso. Nós construímos o motor que viabiliza isso.
+        </p>
+
+        <button class="btn-lime" style="font-size:13px; padding:10px 22px;" onclick="openModal()">
+          Começar a Prospecção (Checklist de 7 Passos)
+        </button>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; font-family:ui-monospace; font-size:11px; color:var(--text-muted); border-top:1px solid var(--border-subtle); padding-top:24px;">
+        <div>OPERAÇÃO // ACELERAÇÃO LOCAL B2B · DOCUMENTO INTERNO CONFIDENCIAL</div>
+        <div style="color:var(--accent-lime);">COMISSÃO: 30% GARANTIDA</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal Interativo: 7 Passos do Vendedor -->
+  <div id="modal-overlay" onclick="handleOverlayClick(event)">
+    <div class="modal-box">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; border-bottom:1px solid var(--border-subtle); padding-bottom:16px;">
+        <div>
+          <div style="font-family:ui-monospace; font-size:10px; color:var(--accent-lime); font-weight:700; text-transform:uppercase;">
+            GUIA PRÁTICO DE EXECUÇÃO
+          </div>
+          <h3 style="font-size:20px; font-weight:700; margin-top:2px;">Checklist de Prospecção (7 Passos)</h3>
+        </div>
+        <button style="background:none; border:none; color:var(--text-secondary); font-size:20px; cursor:pointer;" onclick="closeModal()">✕</button>
+      </div>
+
+      <div id="step-list">
+        <div class="step-item">
+          <input type="checkbox" class="step-check" onchange="saveChecklist()">
+          <div>
+            <strong style="font-size:13px;">Passo 01: Mapear 20 alvos no Google Maps (Raio 3–5km)</strong>
+            <p style="font-size:11px; color:var(--text-secondary); margin-top:2px;">Foque em restaurantes, clínicas, salões e escritórios locais com demanda ativa.</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <input type="checkbox" class="step-check" onchange="saveChecklist()">
+          <div>
+            <strong style="font-size:13px;">Passo 02: Auditoria silenciosa de 5 minutos</strong>
+            <p style="font-size:11px; color:var(--text-secondary); margin-top:2px;">Envie mensagem no WhatsApp às 19h30 para testar tempo de resposta e teste a velocidade do site no 4G.</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <input type="checkbox" class="step-check" onchange="saveChecklist()">
+          <div>
+            <strong style="font-size:13px;">Passo 03: Abordagem executiva de alta autoridade</strong>
+            <p style="font-size:11px; color:var(--text-secondary); margin-top:2px;">"Identifiquei 2 falhas na esteira de atendimento que fazem vocês perderem clientes todo dia. Teria 15 min quinta às 14h?"</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <input type="checkbox" class="step-check" onchange="saveChecklist()">
+          <div>
+            <strong style="font-size:13px;">Passo 04: Reunião de diagnóstico com as 6 perguntas</strong>
+            <p style="font-size:11px; color:var(--text-secondary); margin-top:2px;">Ouça 70% do tempo e anote os números de faturamento e tíquete médio do cliente.</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <input type="checkbox" class="step-check" onchange="saveChecklist()">
+          <div>
+            <strong style="font-size:13px;">Passo 05: Ancoragem com o Pacote Dominação e descida para Crescimento</strong>
+            <p style="font-size:11px; color:var(--text-secondary); margin-top:2px;">Destaque que no Pacote Crescimento (R$ 8.900) nós assumimos R$ 1.500 de mídia do nosso próprio bolso.</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <input type="checkbox" class="step-check" onchange="saveChecklist()">
+          <div>
+            <strong style="font-size:13px;">Passo 06: Fechamento, contrato digital e briefing técnico</strong>
+            <p style="font-size:11px; color:var(--text-secondary); margin-top:2px;">Coleta imediata de acessos ao Google Meu Negócio e Meta Business Suite.</p>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <input type="checkbox" class="step-check" onchange="saveChecklist()">
+          <div>
+            <strong style="font-size:13px;">Passo 07: Onboarding em 48h e liberação da sua comissão de 30%</strong>
+            <p style="font-size:11px; color:var(--text-secondary); margin-top:2px;">Repasse para a equipe de engenharia e comissão (R$ 870 / R$ 2.670 / R$ 5.070) creditada.</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:20px; display:flex; justify-content:flex-end;">
+        <button class="btn-lime" onclick="closeModal()">Entendido, Iniciar Agora</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lightweight Vanilla JS -->
+  <script>
+    // Scroll progress bar
+    window.addEventListener('scroll', () => {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      document.getElementById('scroll-progress').style.width = scrolled + '%';
+    });
+
+    // Modal logic
+    function openModal() {
+      document.getElementById('modal-overlay').classList.add('active');
+    }
+    function closeModal() {
+      document.getElementById('modal-overlay').classList.remove('active');
+    }
+    function handleOverlayClick(e) {
+      if (e.target.id === 'modal-overlay') {
+        closeModal();
+      }
+    }
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // Commission Simulator
+    function updateSim() {
+      const p2 = parseInt(document.getElementById('p2-slider').value);
+      const p3 = parseInt(document.getElementById('p3-slider').value);
+      const bonus = parseInt(document.getElementById('bonus-slider').value);
+
+      document.getElementById('p2-count-val').innerText = p2;
+      document.getElementById('p3-count-val').innerText = p3;
+      document.getElementById('bonus-count-val').innerText = bonus;
+
+      const total = (p2 * 2670) + (p3 * 5070) + (bonus * 400);
+      document.getElementById('sim-total').innerText = 'R$ ' + total.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+    }
+
+    // LocalStorage checklist persistence
+    function saveChecklist() {
+      const checks = Array.from(document.querySelectorAll('.step-check')).map(c => c.checked);
+      try {
+        localStorage.setItem('standalone_checklist_data', JSON.stringify(checks));
+      } catch (e) {}
+    }
+    function loadChecklist() {
+      try {
+        const data = JSON.parse(localStorage.getItem('standalone_checklist_data') || '[]');
+        const checks = document.querySelectorAll('.step-check');
+        data.forEach((val, idx) => {
+          if (checks[idx]) checks[idx].checked = val;
+        });
+      } catch (e) {}
+    }
+    loadChecklist();
+  </script>
+</body>
+</html>

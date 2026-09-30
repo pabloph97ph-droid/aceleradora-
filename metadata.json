@@ -1,0 +1,6 @@
+{
+  "name": "Operação Comercial // Aceleração Local",
+  "description": "Portal executivo interno de digitalização e aceleração de negócios locais, playbooks comerciais, precificação e simulação de comissões.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
